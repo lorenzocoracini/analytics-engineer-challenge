@@ -3,7 +3,10 @@ from pathlib import Path
 from sqlalchemy import create_engine, text
 from dotenv import load_dotenv
 import os
-from extract_data import load_raw_csv, file
+import sys
+
+sys.path.insert(0, str(Path(__file__).parent.parent))
+from extract.extract_data import load_raw_csv, file
 
 load_dotenv()
 
