@@ -1,5 +1,9 @@
 # analytics-engineer-challenge
 
+
+## Dimensional Modeling
+![alt text](image.png)
+
 ## Prerequisites
 
 - Python 3.12+
