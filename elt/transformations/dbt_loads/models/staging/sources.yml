@@ -1,0 +1,11 @@
+version: 2
+
+sources:
+  - name: raw
+    database: loadsmart_db
+    schema: raw
+    description: "Raw data from Loadsmart platform"
+    
+    tables:
+      - name: loads_raw
+        description: "Raw freight load records"

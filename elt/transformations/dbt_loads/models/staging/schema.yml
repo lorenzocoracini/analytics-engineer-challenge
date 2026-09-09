@@ -1,0 +1,139 @@
+version: 2
+
+models:
+  - name: stg_loads
+    description: |
+      Staging layer for raw loads data. 
+      Applies basic data type casting (timestamps), string trimming, and data quality flagging.
+    
+    columns:
+      - name: loadsmart_id
+        description: "Unique identifier for each load"
+        data_type: integer
+        tests:
+          - unique
+          - not_null
+      
+      - name: quote_date
+        description: "Timestamp when Loadsmart quoted/received the load"
+        data_type: timestamp
+        tests:
+          - not_null
+      
+      - name: book_date
+        description: "Timestamp when the load was booked/confirmed by Loadsmart"
+        data_type: timestamp
+        tests:
+          - not_null
+      
+      - name: source_date
+        description: "Timestamp when the load was received/confirmed from broker"
+        data_type: timestamp
+      
+      - name: pickup_date
+        description: "Actual pickup date/time at shipper location"
+        data_type: timestamp
+      
+      - name: delivery_date
+        description: "Actual delivery date/time at destination"
+        data_type: timestamp
+      
+      - name: pickup_appointment_time
+        description: "Scheduled/appointed time for pickup"
+        data_type: timestamp
+      
+      - name: delivery_appointment_time
+        description: "Scheduled/appointed time for delivery"
+        data_type: timestamp
+      
+      - name: lane
+        description: "Route description (origin city,state -> destination city,state)."
+        data_type: text
+      
+      - name: equipment_type
+        description: "Type of equipment"
+        data_type: text
+      
+      - name: sourcing_channel
+        description: "Channel where load was sourced"
+        data_type: text
+      
+      - name: carrier_name
+        description: "Identifier/name of the carrier who transported the load"
+        data_type: text
+      
+      - name: shipper_name
+        description: "Identifier/name of the shipper (company that sent the load)"
+        data_type: text
+      
+      - name: book_price
+        description: "Revenue - Price charged to shipper for this load"
+        data_type: numeric
+      
+      - name: source_price
+        description: "Cost - Price paid to carrier for this load"
+        data_type: numeric
+      
+      - name: pnl
+        description: "Profit/Loss - Calculated as (book_price - source_price)"
+        data_type: numeric
+      
+      - name: mileage
+        description: "Distance in miles for the route"
+        data_type: numeric
+      
+      - name: carrier_rating
+        description: "Score of carrier performance"
+        data_type: numeric
+      
+      - name: carrier_dropped_us_count
+        description: "Number of times this carrier has cancelled/dropped loads on Loadsmart"
+        data_type: integer
+      
+      - name: vip_carrier
+        description: "Flag indicating if carrier is VIP/preferred (high performance)"
+        data_type: boolean
+      
+      - name: carrier_on_time_to_pickup
+        description: "Flag indicating carrier arrived at pickup on scheduled time"
+        data_type: boolean
+      
+      - name: carrier_on_time_to_delivery
+        description: "Flag indicating carrier delivered on scheduled time"
+        data_type: boolean
+      
+      - name: carrier_on_time_overall
+        description: "Flag indicating carrier was on-time for both pickup and delivery"
+        data_type: boolean
+      
+      - name: has_mobile_app_tracking
+        description: "Flag indicating load has mobile app tracking capability"
+        data_type: boolean
+      
+      - name: has_macropoint_tracking
+        description: "Flag indicating load uses Macropoint GPS tracking service"
+        data_type: boolean
+      
+      - name: has_edi_tracking
+        description: "Flag indicating load has EDI (Electronic Data Interchange) integration"
+        data_type: boolean
+      
+      - name: contracted_load
+        description: "Flag indicating load was booked via pre-negotiated carrier contract"
+        data_type: boolean
+      
+      - name: load_booked_autonomously
+        description: "Flag indicating Loadsmart booked this load autonomously (without human intervention)"
+        data_type: boolean
+      
+      - name: load_sourced_autonomously
+        description: "Flag indicating Loadsmart found the carrier autonomously"
+        data_type: boolean
+      
+      - name: load_was_cancelled
+        description: "Flag indicating load was cancelled"
+        data_type: boolean
+      
+      - name: dbt_loaded_at
+        description: "Timestamp when this record was processed by dbt"
+        data_type: timestamp
