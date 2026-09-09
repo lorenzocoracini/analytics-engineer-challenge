@@ -73,7 +73,7 @@ EOF
 Place your CSV file in the `elt/data/2026_data_challenge_ae_data.csv` folder, then run:
 
 ```bash
-python elt/load/load_data.py
+python3 elt/load/load_data.py
 ```
 
 This creates the `raw.loads_raw` table in PostgreSQL.
@@ -90,7 +90,6 @@ cd elt/transformations/dbt_loads
 dbt run
 ```
 
-This creates staging models in the `analytics` schema.
 
 ### 10. Run Data Quality Tests
 
