@@ -84,14 +84,20 @@ This creates the `raw.loads_raw` table in PostgreSQL.
 cd elt/transformations/dbt_loads
 ```
 
-### 9. Run dbt Models
+### 9. Install dbt Dependencies
+```bash
+dbt deps
+```
+
+
+### 10. Run dbt Models
 
 ```bash
 dbt run
 ```
 
 
-### 10. Run Data Quality Tests
+### 11. Run Data Quality Tests
 
 ```bash
 dbt test
