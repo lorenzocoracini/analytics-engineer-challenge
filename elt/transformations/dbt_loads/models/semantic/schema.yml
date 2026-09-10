@@ -1,0 +1,76 @@
+version: 2
+
+models:
+  - name: dim_location
+    description: Dimension table of all unique geographic locations (city, state).
+    
+    columns:
+      - name: location_id
+        description: Surrogate key for location (MD5 hash of city || state).
+        tests:
+          - unique
+          - not_null
+        
+      - name: city
+        description: City name extracted from lane field.
+        tests:
+          - not_null
+        
+      - name: state
+        description: Two-letter US state abbreviation.
+        tests:
+          - not_null
+        
+      - name: country
+        description: Country code (always 'US').
+        tests:
+          - not_null
+        
+      - name: dbt_created_at
+        description: Timestamp of dbt transformation.
+        tests:
+          - not_null
+
+  - name: dim_lane
+    description: |
+      Dimension table of unique freight lanes (origin → destination routes).
+      Links to dim_location via source_location_id and target_location_id.
+    
+    columns:
+      - name: lane_id
+        description: Surrogate key for lane.
+        tests:
+          - unique
+          - not_null
+        
+      - name: source_location_id
+        description: FK to dim_location (pickup location).
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_location')
+              field: location_id
+        
+      - name: target_location_id
+        description: FK to dim_location (delivery location).
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_location')
+              field: location_id
+        
+      - name: lane_name
+        description: Human-readable lane name (e.g., "Reading,PA -> Gouverneur,NY").
+        tests:
+          - not_null
+          - unique
+        
+      - name: mileage
+        description: Distance in miles for this lane.
+        tests:
+          - not_null
+        
+      - name: dbt_created_at
+        description: Timestamp of dbt transformation.
+        tests:
+          - not_null
