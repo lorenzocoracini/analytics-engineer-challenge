@@ -6,7 +6,7 @@ models:
     
     columns:
       - name: location_id
-        description: Surrogate key for location (MD5 hash of city || state).
+        description: Surrogate key for location (hash of city || state).
         tests:
           - unique
           - not_null
@@ -32,9 +32,7 @@ models:
           - not_null
 
   - name: dim_lane
-    description: |
-      Dimension table of unique freight lanes (origin → destination routes).
-      Links to dim_location via source_location_id and target_location_id.
+    description: Dimension table of unique freight lanes (origin → destination routes).
     
     columns:
       - name: lane_id
@@ -72,5 +70,139 @@ models:
         
       - name: dbt_created_at
         description: Timestamp of dbt transformation.
+        tests:
+          - not_null
+
+  - name: dim_carrier
+    description: Dimension table of unique carriers.
+    
+    columns:
+      - name: carrier_id
+        description: Surrogate key for carrier.
+        tests:
+          - unique
+          - not_null
+        
+      - name: carrier_name
+        description: Carrier identifier (e.g., "Carrier 1693573").
+        tests:
+          - not_null
+          - unique
+        
+      - name: vip_carrier
+        description: Is this a VIP carrier?
+        
+      - name: dbt_created_at
+        description: Timestamp of dbt transformation.
+        tests:
+          - not_null
+
+  - name: dim_shipper
+    description: Dimension table of unique shippers.
+    
+    columns:
+      - name: shipper_id
+        description: Surrogate key for shipper.
+        tests:
+          - unique
+          - not_null
+        
+      - name: shipper_name
+        description: Shipper identifier (e.g., "Shipper 1052").
+        tests:
+          - not_null
+          - unique
+        
+      - name: dbt_created_at
+        description: Timestamp of dbt transformation.
+        tests:
+          - not_null
+
+  - name: fct_loads
+    description: Fact table of all freight loads.
+    
+    columns:
+      - name: loadsmart_id
+        description: Unique load identifier.
+        tests:
+          - unique
+          - not_null
+        
+      - name: lane_id
+        description: FK to dim_lane.
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_lane')
+              field: lane_id
+        
+      - name: carrier_id
+        description: FK to dim_carrier.
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_carrier')
+              field: carrier_id
+        
+      - name: shipper_id
+        description: FK to dim_shipper.
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_shipper')
+              field: shipper_id
+        
+      - name: book_price
+        description: Revenue (USD) - what shipper paid us.
+        tests:
+          - not_null
+        
+      - name: source_price
+        description: Cost (USD) - what we paid the carrier.
+        tests:
+          - not_null
+        
+      - name: pnl
+        description: Profit/Loss (USD) = book_price - source_price.
+        
+      - name: mileage
+        description: Distance in miles (denormalized from dim_lane).
+        tests:
+          - not_null
+        
+      - name: carrier_rating
+        description: Carrier performance rating (1-5 scale).
+        
+      - name: carrier_dropped_us_count
+        description: Number of times carrier cancelled with us.
+        
+      - name: carrier_on_time_to_pickup
+        description: Did carrier arrive at pickup on time?
+        
+      - name: carrier_on_time_to_delivery
+        description: Did carrier arrive at delivery on time?
+        
+      - name: carrier_on_time_overall
+        description: Was carrier on time for both pickup and delivery?
+        
+      - name: contracted_load
+        description: Is this a contracted load?
+        
+      - name: load_booked_autonomously
+        description: Was load booked by AI/automation?
+        
+      - name: load_sourced_autonomously
+        description: Was carrier sourced by AI/automation?
+        
+      - name: load_was_cancelled
+        description: Was this load cancelled before completion?
+        
+      - name: delivery_date
+        description: Timestamp of actual delivery.
+        tests:
+          - not_null
+        
+      - name: dbt_loaded_at
+        description: Timestamp of dbt staging load.
         tests:
           - not_null
