@@ -13,7 +13,7 @@ LLM_MODEL = os.getenv("LLM_MODEL")
 
 # Get the project root directory
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-MANIFEST_PATH = os.path.join(PROJECT_ROOT, "elt/transformations/dbt_loads/target/manifest.json")
+MANIFEST_PATH = os.path.join(PROJECT_ROOT, "elt/transformations/target/manifest.json")
 
 # Database Config
 DB_HOST = os.getenv("DB_HOST", "localhost")

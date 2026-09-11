@@ -83,7 +83,7 @@ This creates the `raw.loads_raw` table in PostgreSQL.
 ### 8. Navigate to dbt Project
 
 ```bash
-cd elt/transformations/dbt_loads
+cd elt/transformations
 ```
 
 ### 9. Install dbt Dependencies

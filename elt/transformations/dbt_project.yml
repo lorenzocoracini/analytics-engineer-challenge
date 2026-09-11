@@ -1,4 +1,4 @@
-name: 'dbt_loads'
+name: 'loadsmart'
 version: '1.0.0'
 config-version: 2
 
@@ -16,7 +16,7 @@ clean-targets:
   - "dbt_packages"
 
 models:
-  dbt_loads:
+  loadsmart:
     staging:
       +materialized: view
       +tags: ["staging"]
