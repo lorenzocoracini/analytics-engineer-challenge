@@ -1,6 +1,6 @@
 {{ config(
     materialized='table',
-    tags=['semantic', 'facts']
+    tags=['marts', 'facts']
 ) }}
 
 with source as (
@@ -39,6 +39,13 @@ with_shipper_id as (
 final as (
   select 
     loadsmart_id,
+    quote_date,
+    book_date,
+    source_date,
+    pickup_date,
+    delivery_date,
+    pickup_appointment_time,
+    delivery_appointment_time,
     lane_id,
     carrier_id,
     shipper_id,
@@ -46,16 +53,21 @@ final as (
     source_price,
     pnl,
     mileage,
+    equipment_type,
+    sourcing_channel,
     carrier_rating,
     carrier_dropped_us_count,
+    vip_carrier,
     carrier_on_time_to_pickup,
     carrier_on_time_to_delivery,
     carrier_on_time_overall,
+    has_mobile_app_tracking,
+    has_macropoint_tracking,
+    has_edi_tracking,
     contracted_load,
     load_booked_autonomously,
     load_sourced_autonomously,
     load_was_cancelled,
-    delivery_date,
     dbt_loaded_at
   from with_shipper_id
 )

@@ -21,13 +21,9 @@ models:
       +materialized: view
       +tags: ["staging"]
       
-    intermediate:
-      +materialized: view
-      +tags: ["intermediate"]
-      
-    semantic:
+    marts:
       +materialized: table
-      +tags: ["semantic"]
+      +tags: ["marts"]
 
 on-run-start: "{{ log('Starting dbt run...', info=true) }}"
 on-run-end: "{{ log('dbt run completed!', info=true) }}"

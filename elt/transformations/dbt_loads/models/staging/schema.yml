@@ -8,10 +8,9 @@ models:
     
     columns:
       - name: loadsmart_id
-        description: "Unique identifier for each load"
+        description: "Unique identifier for each load (may appear multiple times if load is updated)"
         data_type: integer
         tests:
-          - unique
           - not_null
       
       - name: quote_date
@@ -49,6 +48,30 @@ models:
       - name: lane
         description: "Route description (origin city,state -> destination city,state)."
         data_type: text
+      
+      - name: pickup_city
+        description: "City name for pickup location (parsed from lane field)"
+        data_type: text
+        tests:
+          - not_null
+      
+      - name: pickup_state
+        description: "State abbreviation for pickup location (parsed from lane field)"
+        data_type: text
+        tests:
+          - not_null
+      
+      - name: delivery_city
+        description: "City name for delivery location (parsed from lane field)"
+        data_type: text
+        tests:
+          - not_null
+      
+      - name: delivery_state
+        description: "State abbreviation for delivery location (parsed from lane field)"
+        data_type: text
+        tests:
+          - not_null
       
       - name: equipment_type
         description: "Type of equipment"

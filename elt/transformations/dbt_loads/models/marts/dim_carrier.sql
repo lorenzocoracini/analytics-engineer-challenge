@@ -1,6 +1,6 @@
 {{ config(
     materialized='table',
-    tags=['semantic', 'dimensions']
+    tags=['marts', 'dimensions']
 ) }}
 
 with source as (

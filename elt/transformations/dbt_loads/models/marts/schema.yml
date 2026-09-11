@@ -1,0 +1,305 @@
+version: 2
+
+models:
+  - name: dim_location
+    description: |
+      Dimension table of all unique geographic locations (city, state).
+      Built from parsing pickup and delivery locations from the lane field in stg_loads.
+      Used as a reference for both origin and destination locations in dim_lane and fact_loads.
+    
+    columns:
+      - name: location_id
+        description: |
+          Surrogate key for location (MD5 hash of city || state).
+          Used as FK in dim_lane and fact_loads.
+        data_type: varchar
+        tests:
+          - not_null
+        
+      - name: city
+        description: City name extracted from lane field (e.g., "Reading", "Gouverneur").
+        data_type: varchar
+        tests:
+          - not_null
+        
+      - name: state
+        description: Two-letter US state abbreviation (e.g., "PA", "NY", "TX").
+        data_type: varchar
+        tests:
+          - not_null
+        
+      - name: country
+        description: Country code (always 'US' for this dataset).
+        data_type: varchar
+        tests:
+          - not_null
+        
+      - name: dbt_created_at
+        description: Timestamp when this location record was created by dbt.
+        data_type: timestamp
+        tests:
+          - not_null
+
+  - name: dim_lane
+    description: |
+      Dimension table of unique freight lanes (origin → destination routes).
+      Each lane represents a unique combination of pickup and delivery locations.
+      Mileage is included for distance-based analytics.
+    
+    columns:
+      - name: lane_id
+        description: |
+          Surrogate key for lane (MD5 hash of pickup_city || pickup_state || delivery_city || delivery_state).
+          Used as FK in fact_loads.
+        data_type: varchar
+        tests:
+          - not_null
+        
+      - name: source_location_id
+        description: FK to dim_location (pickup location ID).
+        data_type: varchar
+        tests:
+          - not_null
+        
+      - name: target_location_id
+        description: FK to dim_location (delivery/destination location ID).
+        data_type: varchar
+        tests:
+          - not_null
+        
+      - name: lane_name
+        description: |
+          Human-readable lane name (e.g., "Reading,PA -> Gouverneur,NY").
+          Format: pickup_city,pickup_state -> delivery_city,delivery_state
+        data_type: varchar
+        tests:
+          - not_null
+        
+      - name: mileage
+        description: Distance in miles for this lane route.
+        data_type: numeric
+        tests:
+          - not_null
+        
+      - name: dbt_created_at
+        description: Timestamp when this lane record was created by dbt.
+        data_type: timestamp
+        tests:
+          - not_null
+
+  - name: dim_carrier
+    description: |
+      Dimension table of unique carriers.
+      Includes VIP carrier flag for preferential analysis.
+    
+    columns:
+      - name: carrier_id
+        description: |
+          Surrogate key for carrier (MD5 hash of carrier_name).
+          Used as FK in fact_loads.
+        data_type: varchar
+        tests:
+          - not_null
+        
+      - name: carrier_name
+        description: Carrier identifier (e.g., "Carrier 1693573", "Carrier 999").
+        data_type: varchar
+        tests:
+          - not_null
+        
+      - name: vip_carrier
+        description: |
+          Boolean flag indicating if this is a VIP/preferred carrier.
+          VIP carriers have higher reliability metrics.
+        data_type: boolean
+        
+      - name: dbt_created_at
+        description: Timestamp when this carrier record was created by dbt.
+        data_type: timestamp
+        tests:
+          - not_null
+
+  - name: dim_shipper
+    description: |
+      Dimension table of unique shippers (freight senders).
+      Includes shipper identifiers for volume and revenue tracking.
+    
+    columns:
+      - name: shipper_id
+        description: |
+          Surrogate key for shipper (MD5 hash of shipper_name).
+          Used as FK in fact_loads.
+        data_type: varchar
+        tests:
+          - not_null
+        
+      - name: shipper_name
+        description: Shipper identifier (e.g., "Shipper 1052", "Shipper 5421").
+        data_type: varchar
+        tests:
+          - not_null
+        
+      - name: dbt_created_at
+        description: Timestamp when this shipper record was created by dbt.
+        data_type: timestamp
+        tests:
+          - not_null
+
+  - name: fact_loads
+    description: |
+      Central fact table of all freight loads.
+      Contains load metrics, financial information, and FKs to dimensional tables.
+      One row per unique load (identified by loadsmart_id).
+      Used by AI for freight market analysis, pricing optimization, and performance tracking.
+    
+    columns:
+      - name: loadsmart_id
+        description: |
+          Unique identifier for each freight load (may have multiple rows if load is updated).
+          Primary key for this fact table.
+        data_type: integer
+        tests:
+          - not_null
+        
+      - name: lane_id
+        description: FK to dim_lane (route/lane dimension).
+        data_type: varchar
+        tests:
+          - not_null
+        
+      - name: carrier_id
+        description: FK to dim_carrier (carrier/transporter dimension).
+        data_type: varchar
+        
+      - name: shipper_id
+        description: FK to dim_shipper (shipper/sender dimension).
+        data_type: varchar
+        
+      - name: book_price
+        description: |
+          Revenue (USD) - price charged to shipper for this load.
+          What we (Loadsmart) charge for brokering the freight.
+        data_type: numeric
+        tests:
+          - not_null
+        
+      - name: source_price
+        description: |
+          Cost (USD) - price paid to carrier for this load.
+          What we pay the carrier to transport the freight.
+        data_type: numeric
+        tests:
+          - not_null
+        
+      - name: pnl
+        description: |
+          Profit/Loss (USD) = book_price - source_price.
+          Gross margin on this freight transaction.
+        data_type: numeric
+        
+      - name: mileage
+        description: |
+          Distance in miles (denormalized from dim_lane for query performance).
+          Used for metrics like $/mile analysis.
+        data_type: numeric
+        tests:
+          - not_null
+        
+      - name: carrier_rating
+        description: |
+          Carrier performance rating (typically 1-5 scale or 0-100).
+          Higher values indicate better carrier performance/reliability.
+        data_type: numeric
+        
+      - name: carrier_dropped_us_count
+        description: Count of times this carrier has cancelled/dropped loads on Loadsmart.
+        data_type: integer
+        
+      - name: vip_carrier
+        description: |
+          Boolean flag indicating if carrier is VIP/preferred (high performance).
+          Denormalized from dim_carrier.
+        data_type: boolean
+        
+      - name: carrier_on_time_to_pickup
+        description: Boolean flag - did carrier arrive at pickup on scheduled time?
+        data_type: boolean
+        
+      - name: carrier_on_time_to_delivery
+        description: Boolean flag - did carrier deliver on scheduled time?
+        data_type: boolean
+        
+      - name: carrier_on_time_overall
+        description: Boolean flag - was carrier on time for both pickup and delivery?
+        data_type: boolean
+        
+      - name: has_mobile_app_tracking
+        description: Boolean flag - does this load have mobile app tracking capability?
+        data_type: boolean
+        
+      - name: has_macropoint_tracking
+        description: Boolean flag - does this load use Macropoint GPS tracking service?
+        data_type: boolean
+        
+      - name: has_edi_tracking
+        description: Boolean flag - does this load have EDI (Electronic Data Interchange) integration?
+        data_type: boolean
+        
+      - name: contracted_load
+        description: Boolean flag - was this load booked via pre-negotiated carrier contract?
+        data_type: boolean
+        
+      - name: load_booked_autonomously
+        description: Boolean flag - was this load booked by AI/automation without human intervention?
+        data_type: boolean
+        
+      - name: load_sourced_autonomously
+        description: Boolean flag - was the carrier sourced by AI/automation?
+        data_type: boolean
+        
+      - name: load_was_cancelled
+        description: Boolean flag - was this load cancelled before completion?
+        data_type: boolean
+        
+      - name: equipment_type
+        description: Type of equipment used (e.g., "Reefer", "Flatbed", "Dry Van").
+        data_type: varchar
+        
+      - name: sourcing_channel
+        description: Channel where load was sourced (e.g., "API", "Web", "Manual").
+        data_type: varchar
+        
+      - name: quote_date
+        description: Timestamp when Loadsmart quoted/received the load request.
+        data_type: timestamp
+
+        
+      - name: book_date
+        description: Timestamp when the load was booked/confirmed by Loadsmart.
+        data_type: timestamp
+        
+      - name: source_date
+        description: Timestamp when the load was received/confirmed from broker/shipper.
+        data_type: timestamp
+        
+      - name: pickup_date
+        description: Timestamp of actual pickup at shipper location.
+        data_type: timestamp
+        
+      - name: delivery_date
+        description: Timestamp of actual delivery at destination.
+        data_type: timestamp
+        
+      - name: pickup_appointment_time
+        description: Scheduled/appointed time for carrier pickup at shipper.
+        data_type: timestamp
+        
+      - name: delivery_appointment_time
+        description: Scheduled/appointed time for delivery at destination.
+        data_type: timestamp
+        
+      - name: dbt_loaded_at
+        description: Timestamp when this record was processed by dbt.
+        data_type: timestamp
+        tests:
+          - not_null

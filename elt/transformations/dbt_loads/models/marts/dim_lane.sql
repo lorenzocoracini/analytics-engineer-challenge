@@ -1,12 +1,12 @@
 {{ config(
     materialized='table',
-    tags=['semantic', 'dimensions']
+    tags=['marts', 'dimensions']
 ) }}
 
 with source as (
   select 
     *
-  from {{ ref('int_locations_from_lane') }}
+  from {{ ref('stg_loads') }}
 ),
 
 lanes as (
