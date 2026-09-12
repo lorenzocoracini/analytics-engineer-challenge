@@ -102,3 +102,7 @@ dbt run
 ```bash
 dbt test
 ```
+
+### 12. Notebooks
+
+To run the notebooks in `export_notebook/`, select the `.venv` interpreter as the Jupyter kernel (VS Code: *Select Kernel* → `.venv/bin/python`), otherwise dependencies like `python-dotenv` won't be found.
