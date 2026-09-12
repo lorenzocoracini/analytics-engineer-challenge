@@ -14,6 +14,7 @@ models:
           Used as FK in dim_lane and fact_loads.
         data_type: varchar
         tests:
+          - unique
           - not_null
         
       - name: city
@@ -44,7 +45,6 @@ models:
     description: |
       Dimension table of unique freight lanes (origin → destination routes).
       Each lane represents a unique combination of pickup and delivery locations.
-      Mileage is included for distance-based analytics.
     
     columns:
       - name: lane_id
@@ -53,6 +53,7 @@ models:
           Used as FK in fact_loads.
         data_type: varchar
         tests:
+          - unique
           - not_null
         
       - name: source_location_id
@@ -72,12 +73,6 @@ models:
           Human-readable lane name (e.g., "Reading,PA -> Gouverneur,NY").
           Format: pickup_city,pickup_state -> delivery_city,delivery_state
         data_type: varchar
-        tests:
-          - not_null
-        
-      - name: mileage
-        description: Distance in miles for this lane route.
-        data_type: numeric
         tests:
           - not_null
         
