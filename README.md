@@ -72,13 +72,11 @@ EOF
 
 ### 7. Load Raw Data
 
-Place your CSV file in the `elt/data/2026_data_challenge_ae_data.csv` folder, then run:
+Run the data loading script to populate the `raw.loads_raw` table in PostgreSQL:
 
 ```bash
 python3 elt/load/load_data.py
 ```
-
-This creates the `raw.loads_raw` table in PostgreSQL.
 
 ### 8. Navigate to dbt Project
 
