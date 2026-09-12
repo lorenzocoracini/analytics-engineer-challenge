@@ -3,7 +3,7 @@ from pathlib import Path
 
 file = 'data/2026_data_challenge_ae_data.csv'
 
-def load_raw_csv(filepath):
+def extract_raw_csv(filepath):
     df = pd.read_csv(filepath)
     
     print(f"CSV File extracted : {len(df)} rows")
@@ -14,4 +14,4 @@ def load_raw_csv(filepath):
 
 if __name__ == "__main__":
     csv_path = Path(__file__).parent.parent / file
-    df = load_raw_csv(csv_path)
+    df = extract_raw_csv(csv_path)

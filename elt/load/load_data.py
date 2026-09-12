@@ -6,7 +6,7 @@ import os
 import sys
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
-from extract.extract_data import load_raw_csv, file
+from extract.extract_data import extract_raw_csv, file
 
 load_dotenv()
 
@@ -31,5 +31,5 @@ def load_to_postgres(df, schema_name, table_name):
 
 if __name__ == "__main__":
     csv_path = Path(__file__).parent.parent / file
-    df = load_raw_csv(csv_path)
+    df = extract_raw_csv(csv_path)
     load_to_postgres(df, schema_name="raw", table_name="loads_raw")
