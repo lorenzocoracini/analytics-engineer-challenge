@@ -128,6 +128,7 @@ models:
           Used as FK in fact_loads.
         data_type: varchar
         tests:
+          - unique
           - not_null
         
       - name: shipper_name
@@ -152,10 +153,11 @@ models:
     columns:
       - name: loadsmart_id
         description: |
-          Unique identifier for each freight load (may have multiple rows if load is updated).
+          Unique identifier for each freight load.
           Primary key for this fact table.
         data_type: integer
         tests:
+          - unique
           - not_null
         
       - name: lane_id
@@ -196,7 +198,7 @@ models:
         
       - name: mileage
         description: |
-          Distance in miles (denormalized from dim_lane for query performance).
+          Distance in miles.
           Used for metrics like $/mile analysis.
         data_type: numeric
         tests:
@@ -204,7 +206,7 @@ models:
         
       - name: carrier_rating
         description: |
-          Carrier performance rating (typically 1-5 scale or 0-100).
+          Carrier performance rating (1-5 scale).
           Higher values indicate better carrier performance/reliability.
         data_type: numeric
         
@@ -230,22 +232,6 @@ models:
         description: Boolean flag - was carrier on time for both pickup and delivery?
         data_type: boolean
         
-      - name: has_mobile_app_tracking
-        description: Boolean flag - does this load have mobile app tracking capability?
-        data_type: boolean
-        
-      - name: has_macropoint_tracking
-        description: Boolean flag - does this load use Macropoint GPS tracking service?
-        data_type: boolean
-        
-      - name: has_edi_tracking
-        description: Boolean flag - does this load have EDI (Electronic Data Interchange) integration?
-        data_type: boolean
-        
-      - name: contracted_load
-        description: Boolean flag - was this load booked via pre-negotiated carrier contract?
-        data_type: boolean
-        
       - name: load_booked_autonomously
         description: Boolean flag - was this load booked by AI/automation without human intervention?
         data_type: boolean
@@ -259,11 +245,11 @@ models:
         data_type: boolean
         
       - name: equipment_type
-        description: Type of equipment used (e.g., "Reefer", "Flatbed", "Dry Van").
+        description: Type of equipment used ("Reefer", "Flatbed", "Dry Van").
         data_type: varchar
         
       - name: sourcing_channel
-        description: Channel where load was sourced (e.g., "API", "Web", "Manual").
+        description: Channel where load was sourced ("carrier_capacity", "dat_in", "dat_out", "external_source_list", "livejobs", "source_list", "ts_in", "ts_out").
         data_type: varchar
         
       - name: quote_date

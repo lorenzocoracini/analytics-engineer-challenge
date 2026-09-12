@@ -129,22 +129,6 @@ models:
         description: "Flag indicating carrier was on-time for both pickup and delivery"
         data_type: boolean
       
-      - name: has_mobile_app_tracking
-        description: "Flag indicating load has mobile app tracking capability"
-        data_type: boolean
-      
-      - name: has_macropoint_tracking
-        description: "Flag indicating load uses Macropoint GPS tracking service"
-        data_type: boolean
-      
-      - name: has_edi_tracking
-        description: "Flag indicating load has EDI (Electronic Data Interchange) integration"
-        data_type: boolean
-      
-      - name: contracted_load
-        description: "Flag indicating load was booked via pre-negotiated carrier contract"
-        data_type: boolean
-      
       - name: load_booked_autonomously
         description: "Flag indicating Loadsmart booked this load autonomously (without human intervention)"
         data_type: boolean
