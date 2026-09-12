@@ -74,6 +74,7 @@ models:
           Format: pickup_city,pickup_state -> delivery_city,delivery_state
         data_type: varchar
         tests:
+          - unique
           - not_null
         
       - name: dbt_created_at
@@ -94,6 +95,7 @@ models:
           Used as FK in fact_loads.
         data_type: varchar
         tests:
+          - unique
           - not_null
         
       - name: carrier_name
