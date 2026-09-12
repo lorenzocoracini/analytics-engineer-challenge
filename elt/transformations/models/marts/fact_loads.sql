@@ -57,7 +57,6 @@ final as (
     sourcing_channel,
     carrier_rating,
     carrier_dropped_us_count,
-    vip_carrier,
     carrier_on_time_to_pickup,
     carrier_on_time_to_delivery,
     carrier_on_time_overall,

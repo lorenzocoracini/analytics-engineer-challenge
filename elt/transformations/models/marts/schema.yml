@@ -214,12 +214,6 @@ models:
         description: Count of times this carrier has cancelled/dropped loads on Loadsmart.
         data_type: integer
         
-      - name: vip_carrier
-        description: |
-          Boolean flag indicating if carrier is VIP/preferred (high performance).
-          Denormalized from dim_carrier.
-        data_type: boolean
-        
       - name: carrier_on_time_to_pickup
         description: Boolean flag - did carrier arrive at pickup on scheduled time?
         data_type: boolean
