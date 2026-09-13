@@ -4,7 +4,7 @@
 ![alt text](images/solution-workflow.png)
 
 ## Dimensional Modeling
-![alt text](images/image.png)
+![alt text](images/dimensional-modeling.png)
 
 ## Prerequisites
 
