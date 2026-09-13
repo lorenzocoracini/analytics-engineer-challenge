@@ -5,11 +5,8 @@ config-version: 2
 profile: 'loadsmart'
 
 model-paths: ["models"]
-analysis-paths: ["analysis"]
 test-paths: ["tests"]
 macro-paths: ["macros"]
-snapshot-paths: ["snapshots"]
-seed-paths: ["data"]
 target-path: "target"
 clean-targets:
   - "target"
