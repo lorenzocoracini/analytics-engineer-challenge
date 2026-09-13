@@ -5,4 +5,4 @@ __pycache__/
 **/logs/
 **/target/
 **/.DS_Store
-*.png
+/*.png
