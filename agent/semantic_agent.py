@@ -35,7 +35,7 @@ class SemanticAgent:
         
         schema_text = "# Available Models and Columns\n\n"
         for node_id, node in manifest.get("nodes", {}).items():
-            if "model" in node_id and "marts" in node_id:
+            if node_id.startswith("model.") and "marts" in node.get("path", ""):
                 schema_text += f"## {node['name']}\n"
                 schema_text += f"Full name: analytics.{node['name']}\n"
                 schema_text += f"Description: {node.get('description', 'N/A')}\n\n"
