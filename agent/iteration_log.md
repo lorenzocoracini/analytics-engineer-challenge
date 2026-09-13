@@ -85,7 +85,6 @@ WHERE pickup_date IS NOT NULL AND delivery_date IS NOT NULL;
 
 **Note:** First, the agent picked `pickup_date → delivery_date`, not the `book_date → delivery_date` definition assumed for this question. 
 
-**Fix applied:** added a note to `book_date`'s description in schema.yml recording the assumption: "delivery time" = `delivery_date - book_date`, distinct from `delivery_date - pickup_date` (transit time only).
 
 ---
 
