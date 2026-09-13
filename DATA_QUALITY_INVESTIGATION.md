@@ -77,7 +77,7 @@ where rn = 1
 ---
 
 ### Issue 3: All FALSE Values in Tracking Columns
-![alt text](docs/images/image-2.png)
+![alt text](images/image-2.png)
 
 **Location:** `raw.loads_raw`, columns `has_mobile_app_tracking`, `has_macropoint_tracking`, `has_edi_tracking`
 **Description:** All records have FALSE value in tracking-related columns (note: `has_mobile_app_tracking` appears duplicated in raw data)
@@ -91,7 +91,7 @@ where rn = 1
 ---
 
 ### Issue 4: Missing Street Address in Lane Data
-![alt text](docs/images/image-3.png)
+![alt text](images/image-3.png)
 
 **Location:** `raw.loads_raw`, column `lane`
 **Description:** Lane contains only "City, ST -> City, ST" format, missing street addresses for pickup and delivery locations
@@ -101,7 +101,6 @@ where rn = 1
 - Mileage varies significantly for same lane (different pickup/delivery addresses within same city)
 - Cannot analyze if drivers took exact same route or if variance is due to different addresses
 
-Without street address, cannot determine if this variance is due to different pickup/delivery points or inefficient routing.
 
 **Solution:**
 - Kept `mileage` in `fact_loads` instead of `dim_lane`
@@ -135,7 +134,7 @@ Future enhancements would require street-level location data to:
 {{ clean_city_name('pickup_city_raw', 'pickup_state', 'delivery_state') }} as pickup_city,
 {{ clean_city_name('delivery_city_raw', 'delivery_state', 'pickup_state') }} as delivery_city,
 ```
-![alt text](docs/images/image-4.png)
+![alt text](images/image-4.png)
 
 **Test:**
 - tests/assert_no_numeric_city_names.sql

@@ -1,10 +1,10 @@
 # analytics-engineer-challenge
 
 ## Solution Workflow Diagram
-![alt text](docs/images/image-1.png)
+![alt text](images/image-1.png)
 
 ## Dimensional Modeling
-![alt text](docs/images/image.png)
+![alt text](images/image.png)
 
 ## Prerequisites
 
