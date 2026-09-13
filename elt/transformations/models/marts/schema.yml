@@ -269,7 +269,12 @@ models:
         data_type: timestamp
         
       - name: delivery_date
-        description: Timestamp of actual delivery at destination.
+        description: |
+          Timestamp of actual delivery at destination.
+          A month only counts as "full"/complete if BOTH: (1) it has at least
+          15 distinct calendar days with a delivery, AND (2) the following
+          calendar month also has at least one delivery (proof this month is
+          over, not still accumulating).
         data_type: timestamp
         
       - name: pickup_appointment_time

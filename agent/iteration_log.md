@@ -26,6 +26,50 @@ WHERE delivery_date >= month_start
 
 ---
 
+## Q1 — retest after schema.yml
+
+**Iteration:** 2
+
+**Generated Query:**
+```sql
+WITH monthly AS (
+  SELECT
+    date_trunc('month', delivery_date) AS month,
+    COUNT(DISTINCT delivery_date::date) AS distinct_days
+  FROM analytics.fact_loads
+  WHERE delivery_date IS NOT NULL
+  GROUP BY 1
+),
+full_months AS (
+  SELECT m.month
+  FROM monthly m
+  JOIN monthly nxt
+    ON nxt.month = m.month + INTERVAL '1 month'
+  WHERE m.distinct_days >= 15
+)
+SELECT COUNT(*) AS loads_delivered_last_full_month
+FROM analytics.fact_loads
+WHERE date_trunc('month', delivery_date) = (SELECT MAX(month) FROM full_months);
+```
+
+**Answer:** 497
+
+**Note:** the agent derived the "full month" logic itself from the schema.yml.
+
+schema.yml change:
+```yaml
+      - name: delivery_date
+        description: |
+          Timestamp of actual delivery at destination.
+          A month only counts as "full"/complete if BOTH: (1) it has at least
+          15 distinct calendar days with a delivery, AND (2) the following
+          calendar month also has at least one delivery (proof this month is
+          over, not still accumulating).
+        data_type: timestamp
+```
+
+---
+
 ## Q12 (bonus) — "What is the average delivery time?"
 
 **Iteration:** 1
