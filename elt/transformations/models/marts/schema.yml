@@ -252,7 +252,12 @@ models:
 
         
       - name: book_date
-        description: Timestamp when the load was booked/confirmed by Loadsmart.
+        description: |
+          Timestamp when the load was booked/confirmed by Loadsmart.
+          "Delivery time" / load duration is defined as delivery_date - book_date.
+          This is different from delivery_date - pickup_date, which
+          measures only on-the-road transit time; don't use that for "delivery
+          time" without saying so.
         data_type: timestamp
         
       - name: source_date
