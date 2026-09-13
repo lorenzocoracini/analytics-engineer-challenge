@@ -13,7 +13,6 @@ pickup_locations as (
   select distinct
     pickup_city as city,
     pickup_state as state,
-    'US' as country
   from source
   where pickup_city is not null and pickup_state is not null
 ),
@@ -22,7 +21,6 @@ delivery_locations as (
   select distinct
     delivery_city as city,
     delivery_state as state,
-    'US' as country
   from source
   where delivery_city is not null and delivery_state is not null
 ),
@@ -42,7 +40,6 @@ final as (
     {{ dbt_utils.generate_surrogate_key(['city', 'state']) }} as location_id,
     city,
     state,
-    country,
     current_timestamp as dbt_created_at
   from all_locations
   order by state, city

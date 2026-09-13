@@ -39,6 +39,9 @@ with_shipper_id as (
 final as (
   select 
     loadsmart_id,
+    lane_id,
+    carrier_id,
+    shipper_id,
     quote_date,
     book_date,
     source_date,
@@ -46,9 +49,6 @@ final as (
     delivery_date,
     pickup_appointment_time,
     delivery_appointment_time,
-    lane_id,
-    carrier_id,
-    shipper_id,
     book_price,
     source_price,
     pnl,
