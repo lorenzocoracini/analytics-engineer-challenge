@@ -19,7 +19,7 @@ Each linked folder above has its own README with more detail.
 ## Dimensional Modeling
 ![alt text](images/dimensional-modeling.png)
 
-## Prerequisites
+## Requirements
 
 - **OS:** Linux or macOS. On Windows, use **WSL2**, the setup below assumes a Unix-like shell.
 - Python 3.12+
