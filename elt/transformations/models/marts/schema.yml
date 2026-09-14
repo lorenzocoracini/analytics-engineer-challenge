@@ -29,12 +29,6 @@ models:
         tests:
           - not_null
         
-      - name: country
-        description: Country code (always 'US' for this dataset).
-        data_type: varchar
-        tests:
-          - not_null
-        
       - name: dbt_created_at
         description: Timestamp when this location record was created by dbt.
         data_type: timestamp
