@@ -19,14 +19,14 @@ Each linked folder above has its own README with more detail.
 ## Dimensional Modeling
 ![alt text](images/dimensional-modeling.png)
 
-## Prerequisites
+## Pre requisites
 
 - **OS:** Linux or macOS. On Windows, use **WSL2**, the setup below assumes a Unix-like shell.
 - Python 3.12+
 - Docker & Docker Compose
 - Git
 
-## Setup Instructions
+## ETL Setup Instructions
 
 ### 1. Clone the Repository
 
