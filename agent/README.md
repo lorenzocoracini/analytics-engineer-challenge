@@ -20,6 +20,8 @@ Text-to-SQL agent that answers questions about the `analytics` marts. It reasons
 
 ## Setup
 
+**Model:** Anthropic Claude (`claude-sonnet-5`), via the `anthropic` Python SDK. Any LLM provider would work here (the prompt only needs schema metadata + question in, SQL out).
+
 Requires the dbt project to have been built at least once (`dbt run` in `elt/transformations`), since the agent reads its `target/manifest.json`.
 
 Environment variables (see [`.env.example`](../.env.example)):

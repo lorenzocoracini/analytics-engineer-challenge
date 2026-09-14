@@ -137,7 +137,7 @@ Future enhancements would require street-level location data to:
 ![alt text](images/image-4.png)
 
 **Test:**
-- tests/assert_no_numeric_city_names.sql
+- tests/assert_no_numeric_city_name.sql
 - Validates that no numeric characters remain in city names after cleaning
 
 ---
