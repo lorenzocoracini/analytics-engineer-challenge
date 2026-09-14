@@ -1,6 +1,6 @@
 # analytics-engineer-challenge
 
-## Solution Overview
+## Solutions Overview
 
 | # | Solution | Where |
 |---|----------|-------|
@@ -21,7 +21,7 @@ Each linked folder above has its own README with more detail.
 
 ## Prerequisites
 
-- **OS:** Linux or macOS. On Windows, use **WSL2** — the setup below assumes a Unix-like shell.
+- **OS:** Linux or macOS. On Windows, use **WSL2**, the setup below assumes a Unix-like shell.
 - Python 3.12+
 - Docker & Docker Compose
 - Git
