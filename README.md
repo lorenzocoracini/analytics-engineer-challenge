@@ -26,7 +26,7 @@ Each linked folder above has its own README with more detail.
 - Docker & Docker Compose
 - Git
 
-## ETL Setup Instructions
+## ELT Setup Instructions
 
 ### 1. Clone the Repository
 
