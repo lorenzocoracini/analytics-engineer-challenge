@@ -8,8 +8,8 @@ Power BI dashboard built on top of the `analytics` marts (`fact_loads` and its d
 
 ## Data Model
 
-![Data model](../images/data_model.png)
+<img src="../images/data_model.png" alt="Data model" width="640">
 
 ## Dashboard
 
-![Dashboard](../images/dash.png)
+<img src="../images/dash.png" alt="Dashboard" width="596">
