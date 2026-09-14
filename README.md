@@ -43,12 +43,12 @@ Create `.env` file based on the template:
 cp .env.example .env
 ```
 
-Edit `.env` with your credentials. Do this before starting Docker — Postgres only applies `DB_USER`/`DB_PASSWORD`/`DB_NAME` on the first run of an empty volume, so changing `.env` after the container is already up won't take effect without recreating the volume (`docker-compose down -v`).
+Edit `.env` with your credentials.
 
 ### 3. Start PostgreSQL with Docker
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 ### 4. Create Python Virtual Environment
