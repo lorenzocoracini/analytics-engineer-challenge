@@ -35,26 +35,7 @@ git clone https://github.com/lorenzocoracini/analytics-engineer-challenge.git
 cd analytics-engineer-challenge
 ```
 
-### 2. Start PostgreSQL with Docker
-
-```bash
-docker-compose up -d
-```
-
-### 3. Create Python Virtual Environment
-
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-```
-
-### 4. Install Dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
-### 5. Configure Environment Variables
+### 2. Configure Environment Variables
 
 Create `.env` file based on the template:
 
@@ -62,7 +43,26 @@ Create `.env` file based on the template:
 cp .env.example .env
 ```
 
-Edit `.env` with your credentials.
+Edit `.env` with your credentials. Do this before starting Docker — Postgres only applies `DB_USER`/`DB_PASSWORD`/`DB_NAME` on the first run of an empty volume, so changing `.env` after the container is already up won't take effect without recreating the volume (`docker-compose down -v`).
+
+### 3. Start PostgreSQL with Docker
+
+```bash
+docker-compose up -d
+```
+
+### 4. Create Python Virtual Environment
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+### 5. Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
 
 ### 6. Setup dbt Profile
 
