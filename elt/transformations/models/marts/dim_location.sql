@@ -12,7 +12,7 @@ with source as (
 pickup_locations as (
   select distinct
     pickup_city as city,
-    pickup_state as state,
+    pickup_state as state
   from source
   where pickup_city is not null and pickup_state is not null
 ),
@@ -20,7 +20,7 @@ pickup_locations as (
 delivery_locations as (
   select distinct
     delivery_city as city,
-    delivery_state as state,
+    delivery_state as state
   from source
   where delivery_city is not null and delivery_state is not null
 ),
