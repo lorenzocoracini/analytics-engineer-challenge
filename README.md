@@ -1,5 +1,18 @@
 # analytics-engineer-challenge
 
+## Solution Overview
+
+| # | Solution | Where |
+|---|----------|-------|
+| 1 | dbt project | [`elt/transformations/`](elt/transformations) |
+| 2 | AI notebook (text-to-SQL semantic agent) | [`agent/`](agent) |
+| 3 | Export data notebook | [`export_notebook/`](export_notebook) |
+| 4 | How to run everything | [Setup Instructions](#setup-instructions) below |
+| 5 | Data quality | [`DATA_QUALITY_INVESTIGATION.md`](DATA_QUALITY_INVESTIGATION.md) |
+| 6 | Report (Power BI) | [`visualization/`](visualization) |
+
+Each linked folder above has its own README with more detail.
+
 ## Solution Workflow Diagram
 ![alt text](images/solution-workflow.png)
 
@@ -8,6 +21,7 @@
 
 ## Prerequisites
 
+- **OS:** Linux or macOS. On Windows, use **WSL2** — the setup below assumes a Unix-like shell.
 - Python 3.12+
 - Docker & Docker Compose
 - Git
@@ -31,13 +45,13 @@ docker-compose up -d
 
 ```bash
 python3 -m venv .venv
-source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+source .venv/bin/activate
 ```
 
 ### 4. Install Dependencies
 
 ```bash
-pip install -r requirements.txt --break-system-packages
+pip install -r requirements.txt
 ```
 
 ### 5. Configure Environment Variables
@@ -89,20 +103,12 @@ cd elt/transformations
 dbt deps
 ```
 
-
 ### 10. Run dbt Models
 
 ```bash
 dbt run
 ```
 
+### 11. Notebooks
 
-### 11. Run Data Quality Tests
-
-```bash
-dbt test
-```
-
-### 12. Notebooks
-
-To run the notebooks in `export_notebook/`, select the `.venv` interpreter as the Jupyter kernel (VS Code: *Select Kernel* → `.venv/bin/python`), otherwise dependencies like `python-dotenv` won't be found.
+To run the notebooks (`agent/questions/ask_questions.ipynb`, `export_notebook/export_loads.ipynb`), select the `.venv` interpreter as the Jupyter kernel (VS Code: *Select Kernel* → `.venv/bin/python`), otherwise dependencies like `python-dotenv` won't be found.
